@@ -3,10 +3,11 @@ import { Rnd } from 'react-rnd';
 
 export default function ResizableTextBox() {
   const [text, setText] = useState('Your message goes here...');
-  const [boxSize, setBoxSize] = useState({ width: 300, height: 150 });
+  const [boxSize, setBoxSize] = useState({ width: 259, height: 50 });
 
   useEffect(() => {
     // TODO: Estimate tokens and call backend
+    //autoResize();
   }, [boxSize, text]);
 
   return (
@@ -19,7 +20,10 @@ export default function ResizableTextBox() {
     >
       <textarea
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => {
+          setText(e.target.value);
+          //autoResize();
+        }}
         style={{ width: '100%', height: '100%', resize: 'none' }}
       />
     </Rnd>
