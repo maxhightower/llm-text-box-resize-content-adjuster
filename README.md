@@ -9,7 +9,7 @@ This project demonstrates a UI element that adapts the content of your message t
 - **Modern UI:** Clean, responsive React interface.
 
 ## Demo
-<!-- ![Demo Screenshot](screenshot.png) --> 
+![Demo Screenshot](Demo_Screenshot.png)
 <!-- Add a screenshot if available -->
 
 ## Getting Started
