@@ -1,3 +1,4 @@
+import React from 'react';
 import ResizableTextBox from '/src/components/ResizableTextBox';
 import './App.css';
 
@@ -31,6 +32,7 @@ function App() {
       >
         <ResizableTextBox />
       </main>
+
     </div>
   );
 }

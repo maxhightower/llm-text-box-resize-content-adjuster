@@ -10,7 +10,31 @@ export default function ResizableTextBox() {
     //autoResize();
   }, [boxSize, text]);
 
+  const handleRewrite = async () => {
+      const estimatedTokens = Math.round((boxSize.width * boxSize.height) / 20);
+
+      try {
+        const response = await fetch('http://localhost:3001/api/rewrite', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, targetTokens: estimatedTokens }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch from backend');
+        }
+
+        const data = await response.json();
+        setText(data.rewritten);
+      } catch (error) {
+        console.error('Rewrite failed:', error.message);
+        alert('There was an error rewriting your text.');
+      }
+    };
+
+
   return (
+    <div style={{ width: '100%', height: '100%' }}>
     <Rnd
       className="ai-shimmer-border"
       size={boxSize}
@@ -43,5 +67,20 @@ export default function ResizableTextBox() {
         }}
       />
     </Rnd>
+      <button
+      onClick={handleRewrite}
+      style={{
+        marginTop: '12px',
+        padding: '8px 16px',
+        fontSize: '14px',
+        cursor: 'pointer',
+        background: '#007bff',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '4px',
+      }}> 
+      Rewrite
+    </button> 
+  </div>
   );
 }
