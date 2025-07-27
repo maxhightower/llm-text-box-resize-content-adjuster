@@ -25,15 +25,21 @@ This project demonstrates a UI element that adapts the content of your message t
    ```
 
 2. **Install dependencies:**
+    <!-- the app is run in Vite -->
+
    ```sh
    npm install
+
+   npm run dev
    ```
 
 3. **Start the development server:**
    ```sh
    npm start
    ```
-   The app will be available at [http://localhost:3000](http://localhost:3000).
+   The app will be available at local host.
+
+
 
 ## Project Structure
 
