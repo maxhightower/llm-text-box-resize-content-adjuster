@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -39,4 +39,33 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* AI Rainbow Shimmer Border */
+.ai-shimmer-border {
+  position: relative;
+  border-radius: 8px;
+  /* Remove the default border from inline style if you want only shimmer */
+  /* border: none; */
+  z-index: 0;
+}
+.ai-shimmer-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px; /* Border thickness */
+  background: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ffcc00, #ff00cc);
+  background-size: 600% 600%;
+  animation: ai-shimmer 4s linear infinite;
+  z-index: -1;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+@keyframes ai-shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
 }
