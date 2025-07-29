@@ -9,29 +9,50 @@ export default function ResizableTextBox() {
     // TODO: Estimate tokens and call backend
     //autoResize();
   }, [boxSize, text]);
+const handleRewrite = async () => {
+  const estimatedTokens = Math.round((boxSize.width * boxSize.height) / 20);
 
-  const handleRewrite = async () => {
-      const estimatedTokens = Math.round((boxSize.width * boxSize.height) / 20);
+  // Debug: Check if API key is loaded
+  //console.log('API Key exists:', !!process.env.REACT_APP_OPENAI_API_KEY);
+  //console.log('API Key starts with sk-:', process.env.REACT_APP_OPENAI_API_KEY?.startsWith('sk-'));
+  console.log('API KEY:', process.env.REACT_APP_OPENAI_API_KEY); // Should NOT be undefined
 
-      try {
-        const response = await fetch('http://localhost:3001/api/rewrite', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, targetTokens: estimatedTokens }),
-        });
+  try {
+    const response = await fetch('https://cors-anywhere.herokuapp.com/https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: `Rewrite the following message so it fits within approximately ${estimatedTokens} tokens, preserving the main idea:`,
+          },
+          {
+            role: "user",
+            content: text,
+          },
+        ],
+        max_tokens: estimatedTokens,
+        temperature: 0.7,
+      }),
+    });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch from backend');
-        }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-        const data = await response.json();
-        setText(data.rewritten);
-      } catch (error) {
-        console.error('Rewrite failed:', error.message);
-        alert('There was an error rewriting your text.');
-      }
-    };
-
+    const data = await response.json();
+    const rewritten = data.choices[0].message.content.trim();
+    setText(rewritten);
+  } catch (error) {
+    console.error('Rewrite failed:', error);
+    alert(`There was an error rewriting your text: ${error.message}`);
+  }
+};
 
   return (
     <div style={{ width: '100%', height: '100%' }}>
@@ -67,7 +88,7 @@ export default function ResizableTextBox() {
         }}
       />
     </Rnd>
-      <button
+    <button
       onClick={handleRewrite}
       style={{
         marginTop: '12px',

@@ -1,5 +1,5 @@
 import React from 'react';
-import ResizableTextBox from '/src/components/ResizableTextBox';
+import ResizableTextBox from './/components/ResizableTextBox';
 import './App.css';
 
 function App() {
